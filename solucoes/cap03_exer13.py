@@ -57,17 +57,20 @@ def countPrimes(num, n):
 
 
 def main():
-    print(".::::: Capítulo 03 - Exercício 12 :::::.\n")
+    print(".::::: Capítulo 03 - Exercício 13 :::::.\n")
     print("----------------------------------------\n")
 
     numTests = NUM_TESTS
-    createCSV("cap03_exer12.csv", "Número de Testes,Número de Tipos 1,Número de Tipos 2,Proporção\n")
+    createCSV("cap03_exer13.csv", "Número Mínimo Que Tipo1 > Tipo3\n")
     
-    num, n = erastosthenesSieve(numTests)
-    i = 1
-    while i <= (int(log(numTests, 10))):
-        type1, type3 = countPrimes(num, pow(10,i))
-        relation = float(type1)/float(type3)
-        createCSV("cap03_exer12.csv", str(int(pow(10, i)))+","+str(type1)+","+str(type3)+","+str(relation)+"\n")
-        i += 1
+    i = 10
+    while True:
+        num, n = erastosthenesSieve(i)
+        type1, type3 = countPrimes(num, i)
+        print(i)
+        if(type1 > type3):
+            print("VIVA")
+            createCSV("cap03_exer13.csv", str(i)+"\n")
+            break;
+        i += 10
 main()

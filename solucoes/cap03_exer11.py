@@ -5,17 +5,22 @@ import random
 from math import log
 from math import pow
 
-NUM_TESTS = 10000
+NUM_TESTS = 1000000
 
 def createCSV(nameCSV, string):
     csv = open(nameCSV, "a")
     csv.write(string)
 
-def typeOfPrime(n):
-    if n%4 == 1:
-        return True
-    else:
-        return False
+def s(n):
+    s = i = 0
+    coefficients = [22916850747390, -4294497206839, 19933041355048, 2822622049280, 0, 0, -3471281875914, 0, 3382010886195, -2537982656589, 838614942934, -136044512548, 8914545378] 
+    while i < 12:
+        s += coefficients[i]*(pow(log(log(n)),i))
+        i += 1
+    s = pow(s, -1/4) + 1
+    s = s*(float(n)/float(log(n)))
+    return s
+
 
 def erastosthenesSieve(n):
     i = 0
@@ -41,33 +46,29 @@ def erastosthenesSieve(n):
     return num, n
 
 def countPrimes(num, n):
-    type1 = type3 = 0
+    numPrimes = 0
 
     i = 0
     while i < n:
         if num[i] == True:
-            if typeOfPrime(i) == True:
-                type1 += 1
-            else:
-                type3 += 1
+            numPrimes += 1
         i += 1
 
-
-    return type1, type3
+    return numPrimes
 
 
 def main():
-    print(".::::: Capítulo 03 - Exercício 12 :::::.\n")
+    print(".::::: Capítulo 03 - Exercício 11 :::::.\n")
     print("----------------------------------------\n")
 
     numTests = NUM_TESTS
-    createCSV("cap03_exer12.csv", "Número de Testes,Número de Tipos 1,Número de Tipos 2,Proporção\n")
+    createCSV("cap03_exer11.csv", "Número de Testes, Aproximação Simples , Fórmula S, Número Real\n")
     
     num, n = erastosthenesSieve(numTests)
+    count = 0
     i = 1
     while i <= (int(log(numTests, 10))):
-        type1, type3 = countPrimes(num, pow(10,i))
-        relation = float(type1)/float(type3)
-        createCSV("cap03_exer12.csv", str(int(pow(10, i)))+","+str(type1)+","+str(type3)+","+str(relation)+"\n")
+        count = countPrimes(num, pow(10,i))
+        createCSV("cap03_exer11.csv", str(pow(10,i))+","+str(float(pow(10,i))/float(log(pow(10,i))))+","+str(s(pow(10,i)))+","+str(count)+"\n")
         i += 1
 main()
